@@ -1,0 +1,78 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: 500;
+}
+
+.table th {
+    font-weight: 600;
+    border-top: none;
+}
+
+.status-badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.status-badge.waiting {
+    background-color: #6c757d;
+    color: white;
+}
+
+.status-badge.processing {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.status-badge.completed {
+    background-color: #198754;
+    color: white;
+}
+
+.status-badge.closed {
+    background-color: #6c757d;
+    color: white;
+}
+
+.priority-high {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: #fd7e14;
+}
+
+.priority-low {
+    color: #6c757d;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+    color: #fff;
+    font-weight: 500;
+}
+
+.btn-icon {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+} 

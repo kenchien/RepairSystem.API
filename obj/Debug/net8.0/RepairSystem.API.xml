@@ -1,0 +1,984 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RepairSystem.API</name>
+    </assembly>
+    <members>
+        <member name="T:RepairSystem.API.Controllers.AuthController">
+            <summary>
+            用戶認證控制器，處理用戶登錄、註冊和密碼管理
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.AuthController.#ctor(RepairSystem.API.Services.IAuthService,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Controllers.AuthController})">
+            <summary>
+            AuthController 構造函數
+            </summary>
+            <param name="authService">認證服務</param>
+            <param name="logger">日誌服務</param>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.AuthController.Login(RepairSystem.API.Models.LoginModel)">
+            <summary>
+            用戶登錄
+            </summary>
+            <param name="model">登錄模型，包含用戶名和密碼</param>
+            <returns>JWT令牌及用戶信息</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.AuthController.Register(RepairSystem.API.Controllers.RegisterModel)">
+            <summary>
+            用戶註冊
+            </summary>
+            <param name="model">註冊模型，包含用戶信息</param>
+            <returns>註冊結果</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.AuthController.ChangePassword(RepairSystem.API.Controllers.ChangePasswordModel)">
+            <summary>
+            變更密碼
+            </summary>
+            <param name="model">密碼變更模型，包含舊密碼和新密碼</param>
+            <returns>操作結果</returns>
+        </member>
+        <member name="T:RepairSystem.API.Controllers.RegisterModel">
+            <summary>
+            用戶註冊模型
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Username">
+            <summary>
+            用戶名
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Password">
+            <summary>
+            密碼
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Name">
+            <summary>
+            真實姓名
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Email">
+            <summary>
+            電子郵件
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Phone">
+            <summary>
+            電話號碼
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.RegisterModel.Department">
+            <summary>
+            部門
+            </summary>
+        </member>
+        <member name="T:RepairSystem.API.Controllers.ChangePasswordModel">
+            <summary>
+            密碼變更模型
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.ChangePasswordModel.OldPassword">
+            <summary>
+            舊密碼
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Controllers.ChangePasswordModel.NewPassword">
+            <summary>
+            新密碼
+            </summary>
+        </member>
+        <member name="T:RepairSystem.API.Controllers.EquipmentController">
+            <summary>
+            設備管理控制器，提供設備信息的 CRUD 操作
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.#ctor(RepairSystem.API.Services.IEquipmentService,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Controllers.EquipmentController})">
+            <summary>
+            EquipmentController 構造函數
+            </summary>
+            <param name="equipmentService">設備服務</param>
+            <param name="logger">日誌服務</param>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.GetEquipments(RepairSystem.API.Models.EquipmentQueryParams)">
+            <summary>
+            獲取設備列表，支持分頁和篩選
+            </summary>
+            <param name="queryParams">查詢參數，包括頁碼、每頁大小和篩選條件</param>
+            <returns>設備列表及分頁信息</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.GetEquipment(System.Int32)">
+            <summary>
+            根據ID獲取特定設備
+            </summary>
+            <param name="id">設備ID</param>
+            <returns>設備詳細信息</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.CreateEquipment(RepairSystem.API.Models.Equipment)">
+            <summary>
+            創建新設備
+            </summary>
+            <param name="equipment">設備信息</param>
+            <returns>創建後的設備</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.UpdateEquipment(System.Int32,RepairSystem.API.Models.Equipment)">
+            <summary>
+            更新設備信息
+            </summary>
+            <param name="id">設備ID</param>
+            <param name="equipment">更新的設備信息</param>
+            <returns>更新後的設備</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.EquipmentController.DeleteEquipment(System.Int32)">
+            <summary>
+            刪除設備
+            </summary>
+            <param name="id">設備ID</param>
+            <returns>刪除結果</returns>
+        </member>
+        <member name="T:RepairSystem.API.Controllers.RepairController">
+            <summary>
+            報修單管理控制器，提供報修單的 CRUD 操作和狀態管理
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.#ctor(RepairSystem.API.Services.IRepairService,RepairSystem.API.Services.IFileService,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Controllers.RepairController},RepairSystem.API.Services.IEquipmentService,RepairSystem.API.Services.IEmailService,RepairSystem.API.Services.IAuthService)">
+            <summary>
+            RepairController 構造函數
+            </summary>
+            <param name="repairService">報修單服務</param>
+            <param name="fileService">文件服務</param>
+            <param name="logger">日誌服務</param>
+            <param name="equipmentService">設備服務</param>
+            <param name="emailService">郵件服務</param>
+            <param name="authService">身份驗證服務</param>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.GetTickets">
+            <summary>
+            獲取所有報修單列表
+            </summary>
+            <returns>報修單列表</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.GetTicket(System.Int32)">
+            <summary>
+            根據 ID 獲取特定報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <returns>報修單詳細信息</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.CreateTicket(RepairSystem.API.Models.RepairTicketCreateModel)">
+            <summary>
+            創建新的報修單
+            </summary>
+            <param name="model">報修單創建模型</param>
+            <returns>創建後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.UpdateTicket(System.Int32,RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            更新報修單狀態
+            </summary>
+            <param name="id">報修單 ID</param>
+            <param name="ticket">更新的報修單信息</param>
+            <returns>更新後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.AssignTicket(System.Int32,System.Int32)">
+            <summary>
+            分配技術人員處理報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <param name="technicianId">技術人員 ID</param>
+            <returns>操作結果</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.DeleteTicket(System.Int32)">
+            <summary>
+            刪除報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <returns>操作結果</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.UploadAttachment(System.Int32,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上傳報修單附件
+            </summary>
+            <param name="id">報修單 ID</param>
+            <param name="file">上傳的文件</param>
+            <returns>上傳結果</returns>
+        </member>
+        <member name="M:RepairSystem.API.Controllers.RepairController.GetAttachments(System.Int32)">
+            <summary>
+            獲取報修單的所有附件
+            </summary>
+            <param name="id">報修單 ID</param>
+            <returns>附件列表</returns>
+        </member>
+        <member name="T:RepairSystem.API.Data.DapperContext">
+            <summary>
+            Dapper 資料庫連線上下文
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperContext.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            構造函數
+            </summary>
+            <param name="configuration">配置對象</param>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperContext.CreateConnection">
+            <summary>
+            創建資料庫連線
+            </summary>
+            <returns>數據庫連線</returns>
+        </member>
+        <member name="T:RepairSystem.API.Data.DapperRepairRepository">
+            <summary>
+            使用 Dapper 實現的維修系統存儲庫
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.#ctor(RepairSystem.API.Data.DapperContext,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Data.DapperRepairRepository})">
+            <summary>
+            構造函數
+            </summary>
+            <param name="context">Dapper 連線上下文</param>
+            <param name="logger">日誌記錄器</param>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.GetAllTicketsAsync">
+            <summary>
+            獲取所有報修單
+            </summary>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.GetTicketByIdAsync(System.Int32)">
+            <summary>
+            根據 ID 獲取報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <returns>報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.CreateTicketAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            創建新報修單
+            </summary>
+            <param name="ticket">報修單</param>
+            <returns>創建的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.UpdateTicketAsync(System.Int32,RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            更新報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <param name="ticket">報修單</param>
+            <returns>更新後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.UpdateTicketAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            更新報修單
+            </summary>
+            <param name="ticket">報修單</param>
+            <returns>更新後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.DeleteTicketAsync(System.Int32)">
+            <summary>
+            刪除報修單
+            </summary>
+            <param name="id">報修單 ID</param>
+            <returns>是否刪除成功</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.GetUserTicketsAsync(System.Int32)">
+            <summary>
+            獲取用戶的報修單
+            </summary>
+            <param name="userId">用戶 ID</param>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.DapperRepairRepository.GetTechnicianTicketsAsync(System.Int32)">
+            <summary>
+            獲取技術人員的報修單
+            </summary>
+            <param name="technicianId">技術人員 ID</param>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="T:RepairSystem.API.Data.IRepairRepository">
+            <summary>
+            維修系統數據訪問接口，定義了對報修單、設備和用戶的數據操作
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetAllTicketsAsync">
+            <summary>
+            獲取所有報修單
+            </summary>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetTicketByIdAsync(System.Int32)">
+            <summary>
+            根據ID獲取報修單
+            </summary>
+            <param name="id">報修單ID</param>
+            <returns>報修單對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.CreateTicketAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            創建新的報修單
+            </summary>
+            <param name="ticket">報修單對象</param>
+            <returns>創建後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.UpdateTicketAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            更新報修單信息
+            </summary>
+            <param name="ticket">報修單對象</param>
+            <returns>更新後的報修單</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.DeleteTicketAsync(System.Int32)">
+            <summary>
+            刪除報修單
+            </summary>
+            <param name="id">報修單ID</param>
+            <returns>是否刪除成功</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetUserTicketsAsync(System.Int32)">
+            <summary>
+            獲取用戶的所有報修單
+            </summary>
+            <param name="userId">用戶ID</param>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetTechnicianTicketsAsync(System.Int32)">
+            <summary>
+            獲取技術人員負責的所有報修單
+            </summary>
+            <param name="technicianId">技術人員ID</param>
+            <returns>報修單集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetAllEquipmentAsync(RepairSystem.API.Models.EquipmentQueryParams)">
+            <summary>
+            獲取所有設備，支持分頁和篩選
+            </summary>
+            <param name="queryParams">查詢參數</param>
+            <returns>設備集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetEquipmentByIdAsync(System.Int32)">
+            <summary>
+            根據ID獲取設備
+            </summary>
+            <param name="id">設備ID</param>
+            <returns>設備對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.AddEquipmentAsync(RepairSystem.API.Models.Equipment)">
+            <summary>
+            添加新設備
+            </summary>
+            <param name="equipment">設備對象</param>
+            <returns>添加後的設備</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.UpdateEquipmentAsync(RepairSystem.API.Models.Equipment)">
+            <summary>
+            更新設備信息
+            </summary>
+            <param name="equipment">設備對象</param>
+            <returns>更新後的設備</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.DeleteEquipmentAsync(System.Int32)">
+            <summary>
+            刪除設備
+            </summary>
+            <param name="id">設備ID</param>
+            <returns>是否刪除成功</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetEquipmentTotalCountAsync(RepairSystem.API.Models.EquipmentQueryParams)">
+            <summary>
+            獲取設備總數
+            </summary>
+            <param name="queryParams">查詢參數</param>
+            <returns>設備總數</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetDeviceTypesAsync">
+            <summary>
+            獲取所有設備類型
+            </summary>
+            <returns>設備類型集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetDepartmentsAsync">
+            <summary>
+            獲取所有部門
+            </summary>
+            <returns>部門集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetUserByIdAsync(System.Int32)">
+            <summary>
+            根據ID獲取用戶
+            </summary>
+            <param name="id">用戶ID</param>
+            <returns>用戶對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetUserByUsernameAsync(System.String)">
+            <summary>
+            根據用戶名獲取用戶
+            </summary>
+            <param name="username">用戶名</param>
+            <returns>用戶對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetUserByEmailAsync(System.String)">
+            <summary>
+            根據電子郵件獲取用戶
+            </summary>
+            <param name="email">電子郵件</param>
+            <returns>用戶對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetAllUsersAsync">
+            <summary>
+            獲取所有用戶
+            </summary>
+            <returns>用戶集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.GetTechniciansAsync">
+            <summary>
+            獲取所有技術人員
+            </summary>
+            <returns>技術人員集合</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.CreateUserAsync(RepairSystem.API.Models.User)">
+            <summary>
+            創建新用戶
+            </summary>
+            <param name="user">用戶對象</param>
+            <returns>創建後的用戶</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.UpdateUserAsync(RepairSystem.API.Models.User)">
+            <summary>
+            更新用戶信息
+            </summary>
+            <param name="user">用戶對象</param>
+            <returns>更新後的用戶</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.IRepairRepository.SaveChangesAsync">
+            <summary>
+            保存所有變更到數據庫
+            </summary>
+            <returns>是否保存成功</returns>
+        </member>
+        <member name="T:RepairSystem.API.Data.RepairRepository">
+            <summary>
+            維修系統數據訪問實現類，實現了IRepairRepository接口
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Data.RepairRepository.#ctor(RepairSystem.API.Data.RepairDbContext,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Data.RepairRepository})">
+            <summary>
+            構造函數，通過依賴注入獲取數據庫上下文和日誌記錄器
+            </summary>
+            <param name="context">數據庫上下文</param>
+            <param name="logger">日誌記錄器</param>
+        </member>
+        <member name="M:RepairSystem.API.Data.RepairRepository.GetAllTicketsAsync">
+            <summary>
+            獲取所有報修單，包括關聯的用戶、處理人員和設備信息
+            </summary>
+            <returns>報修單集合，按創建時間降序排序</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.RepairRepository.GetTicketByIdAsync(System.Int32)">
+            <summary>
+            根據ID獲取報修單，包括關聯的用戶、處理人員和設備信息
+            </summary>
+            <param name="id">報修單ID</param>
+            <returns>報修單對象，如果不存在則返回null</returns>
+        </member>
+        <member name="M:RepairSystem.API.Data.RepairRepository.CreateTicketAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            創建新的報修單，設置創建時間和更新時間
+            </summary>
+            <param name="ticket">報修單對象</param>
+            <returns>創建後的報修單</returns>
+        </member>
+        <member name="T:RepairSystem.API.Models.Equipment">
+            <summary>
+            設備實體類，用於記錄各類設備的基本信息
+            </summary>
+            <example>
+            {
+              "equipmentId": 1,
+              "name": "Dell Latitude 7420",
+              "deviceType": "筆記本電腦",
+              "serialNumber": "SN12345678",
+              "status": "正常使用",
+              "department": "資訊部",
+              "location": "行政大樓 301 室"
+            }
+            </example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.EquipmentId">
+            <summary>
+            設備唯一標識符
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.Name">
+            <summary>
+            設備名稱
+            </summary>
+            <example>Dell Latitude 7420</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.DeviceType">
+            <summary>
+            設備類型
+            </summary>
+            <example>筆記本電腦</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.SerialNumber">
+            <summary>
+            設備序列號
+            </summary>
+            <example>SN12345678</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.Status">
+            <summary>
+            設備狀態
+            </summary>
+            <example>正常使用</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.Department">
+            <summary>
+            所屬部門
+            </summary>
+            <example>資訊部</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.Location">
+            <summary>
+            設備位置
+            </summary>
+            <example>行政大樓 301 室</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.PurchaseDate">
+            <summary>
+            購買日期
+            </summary>
+            <example>2023-01-15</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.LastMaintenanceDate">
+            <summary>
+            最後維護日期
+            </summary>
+            <example>2023-06-20</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.Notes">
+            <summary>
+            備註信息
+            </summary>
+            <example>附帶原廠電源適配器和滑鼠</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.ImageUrl">
+            <summary>
+            設備圖片URL
+            </summary>
+            <example>/images/equipment/laptop-001.jpg</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.CreateTime">
+            <summary>
+            創建時間
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.Equipment.UpdateTime">
+            <summary>
+            更新時間
+            </summary>
+        </member>
+        <member name="T:RepairSystem.API.Models.LoginModel">
+            <summary>
+            用戶登錄模型，用於提交登錄請求
+            </summary>
+            <example>
+            {
+              "username": "john.doe",
+              "password": "YourPassword123"
+            }
+            </example>
+        </member>
+        <member name="P:RepairSystem.API.Models.LoginModel.Username">
+            <summary>
+            用戶名
+            </summary>
+            <example>john.doe</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.LoginModel.Password">
+            <summary>
+            用戶密碼
+            </summary>
+            <example>YourPassword123</example>
+        </member>
+        <member name="T:RepairSystem.API.Models.PaginatedResult`1">
+            <summary>
+            分頁結果泛型類，用於封裝分頁數據和分頁信息
+            </summary>
+            <typeparam name="T">分頁數據項的類型</typeparam>
+            <example>
+            {
+              "items": [
+                { "id": 1, "name": "Item 1" },
+                { "id": 2, "name": "Item 2" }
+              ],
+              "totalItems": 50,
+              "page": 1,
+              "pageSize": 10,
+              "totalPages": 5,
+              "hasPrevious": false,
+              "hasNext": true
+            }
+            </example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.Items">
+            <summary>
+            當前頁的數據項集合
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.TotalItems">
+            <summary>
+            符合條件的總數據項數量
+            </summary>
+            <example>50</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.Page">
+            <summary>
+            當前頁碼，從1開始
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.PageSize">
+            <summary>
+            每頁數據項數量
+            </summary>
+            <example>10</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.TotalPages">
+            <summary>
+            總頁數
+            </summary>
+            <example>5</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.HasPrevious">
+            <summary>
+            是否有前一頁
+            </summary>
+            <example>false</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.PaginatedResult`1.HasNext">
+            <summary>
+            是否有下一頁
+            </summary>
+            <example>true</example>
+        </member>
+        <member name="T:RepairSystem.API.Models.RepairTicket">
+            <summary>
+            報修單實體類，用於記錄維修請求的詳細信息
+            </summary>
+            <example>
+            {
+              "id": 1,
+              "title": "電腦無法開機",
+              "description": "按下電源按鈕後無反應",
+              "deviceType": "筆記本電腦",
+              "status": "待處理",
+              "priority": "高",
+              "location": "行政大樓 201 室",
+              "userId": 5,
+              "equipmentId": 10
+            }
+            </example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Id">
+            <summary>
+            報修單唯一標識符
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.TicketId">
+            <summary>
+            報修單號，為了兼容性提供的別名屬性
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Title">
+            <summary>
+            報修單標題，不可為空
+            </summary>
+            <example>電腦無法開機</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Description">
+            <summary>
+            報修單詳細描述，不可為空
+            </summary>
+            <example>按下電源按鈕後無反應，指示燈不亮</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.DeviceType">
+            <summary>
+            設備類型
+            </summary>
+            <example>筆記本電腦</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.DeviceNumber">
+            <summary>
+            設備編號
+            </summary>
+            <example>IT-NB-2023-0042</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Problem">
+            <summary>
+            問題描述
+            </summary>
+            <example>電源問題</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Solution">
+            <summary>
+            解決方案
+            </summary>
+            <example>更換電源適配器</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.CreatedAt">
+            <summary>
+            創建時間，默認為當前時間
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.UpdatedAt">
+            <summary>
+            最後更新時間
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.CreateTime">
+            <summary>
+            創建時間（舊版屬性名稱，提供向後兼容）
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.UpdateTime">
+            <summary>
+            更新時間（舊版屬性名稱，提供向後兼容）
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Status">
+            <summary>
+            報修單狀態，不可為空，默認為"待處理"
+            </summary>
+            <example>待處理</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Priority">
+            <summary>
+            優先級
+            </summary>
+            <example>高</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Location">
+            <summary>
+            設備位置
+            </summary>
+            <example>行政大樓 201 室</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.EquipmentId">
+            <summary>
+            關聯設備 ID
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Equipment">
+            <summary>
+            關聯設備對象
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.UserId">
+            <summary>
+            報修人 ID
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.User">
+            <summary>
+            報修人用戶對象
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.HandledBy">
+            <summary>
+            處理人 ID
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Handler">
+            <summary>
+            處理人用戶對象
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicket.Attachments">
+            <summary>
+            報修單附件集合
+            </summary>
+        </member>
+        <member name="T:RepairSystem.API.Models.RepairTicketCreateModel">
+            <summary>
+            報修單創建模型，用於提交新的維修請求
+            </summary>
+            <example>
+            {
+              "title": "電腦無法開機",
+              "description": "按下電源按鈕後無反應，指示燈不亮",
+              "equipmentId": 10,
+              "location": "行政大樓 201 室",
+              "priority": "高"
+            }
+            </example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.Title">
+            <summary>
+            報修單標題，不可為空
+            </summary>
+            <example>電腦無法開機</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.Description">
+            <summary>
+            報修單詳細描述，不可為空
+            </summary>
+            <example>按下電源按鈕後無反應，指示燈不亮，嘗試更換插座仍然無法開機</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.EquipmentId">
+            <summary>
+            關聯設備ID，不可為空
+            </summary>
+            <example>10</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.Location">
+            <summary>
+            故障設備所在位置
+            </summary>
+            <example>行政大樓 201 室</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.Priority">
+            <summary>
+            維修優先級
+            </summary>
+            <example>高</example>
+        </member>
+        <member name="P:RepairSystem.API.Models.RepairTicketCreateModel.Attachments">
+            <summary>
+            報修單附件文件列表
+            </summary>
+        </member>
+        <member name="T:RepairSystem.API.Models.User">
+            <summary>
+            用戶實體類，表示系統中的用戶信息
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Id">
+            <summary>
+            用戶唯一標識符
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Username">
+            <summary>
+            用戶登錄名，不可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Name">
+            <summary>
+            用戶真實姓名，不可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Email">
+            <summary>
+            用戶電子郵件地址，可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Role">
+            <summary>
+            用戶角色，默認為"User"
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Phone">
+            <summary>
+            用戶電話號碼，可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Department">
+            <summary>
+            用戶所屬部門，可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.PasswordHash">
+            <summary>
+            密碼哈希值，用於安全存儲密碼
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.PasswordSalt">
+            <summary>
+            密碼鹽值，用於加強密碼安全性
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.Password">
+            <summary>
+            明文密碼，僅用於初始化數據，不存儲到數據庫
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.CreatedAt">
+            <summary>
+            用戶創建時間
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.LastLoginAt">
+            <summary>
+            用戶最後登錄時間，可為空
+            </summary>
+        </member>
+        <member name="P:RepairSystem.API.Models.User.CreateTime">
+            <summary>
+            創建時間的別名，用於向後兼容
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Logging.ILogger{RepairSystem.API.Services.EmailService},Microsoft.Extensions.Options.IOptions{RepairSystem.API.Models.EmailSettings})">
+            <summary>
+            電子郵件服務的構造函數
+            </summary>
+            <param name="configuration">應用程序配置</param>
+            <param name="logger">日誌記錄器</param>
+            <param name="emailSettings">電子郵件設置選項</param>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.SendTicketNotificationAsync(RepairSystem.API.Models.RepairTicket,System.String)">
+            <summary>
+            發送報修單通知郵件
+            </summary>
+            <param name="ticket">報修單信息</param>
+            <param name="recipientEmail">收件人郵箱地址</param>
+            <returns>異步任務</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.GenerateEmailBody(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            生成郵件正文內容
+            </summary>
+            <param name="ticket">報修單信息</param>
+            <returns>格式化的HTML郵件內容</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.SendRepairNotificationAsync(RepairSystem.API.Models.RepairTicket)">
+            <summary>
+            發送維修通知郵件
+            </summary>
+            <param name="ticket">報修單信息</param>
+            <returns>異步任務</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.SendStatusUpdateAsync(RepairSystem.API.Models.RepairTicket,System.String)">
+            <summary>
+            發送狀態更新通知郵件
+            </summary>
+            <param name="ticket">報修單信息</param>
+            <param name="oldStatus">舊狀態</param>
+            <returns>異步任務</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.SendAssignmentNotificationAsync(RepairSystem.API.Models.RepairTicket,RepairSystem.API.Models.User)">
+            <summary>
+            發送分配通知郵件
+            </summary>
+            <param name="ticket">報修單信息</param>
+            <param name="handler">處理人員信息</param>
+            <returns>異步任務</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.EmailService.SendEmailAsync(System.String,System.String,System.String)">
+            <summary>
+            發送電子郵件的通用方法
+            </summary>
+            <param name="to">收件人郵箱地址</param>
+            <param name="subject">郵件主題</param>
+            <param name="body">郵件正文</param>
+            <returns>異步任務</returns>
+        </member>
+        <member name="M:RepairSystem.API.Services.FileService.GetFilesByTicketIdAsync(System.Int32)">
+            <summary>
+            獲取報修單的所有附件文件
+            </summary>
+            <param name="ticketId">報修單ID</param>
+            <returns>附件集合</returns>
+        </member>
+    </members>
+</doc>

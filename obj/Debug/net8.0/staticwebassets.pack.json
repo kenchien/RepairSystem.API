@@ -1,0 +1,53 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\js\\auth.js",
+      "PackagePath": "staticwebassets\\js\\auth.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\js\\equipment.js",
+      "PackagePath": "staticwebassets\\js\\equipment.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\js\\repair.js",
+      "PackagePath": "staticwebassets\\js\\repair.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\repair.html",
+      "PackagePath": "staticwebassets\\repair.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RepairSystem.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.RepairSystem.API.props",
+      "PackagePath": "build\\RepairSystem.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.RepairSystem.API.props",
+      "PackagePath": "buildMultiTargeting\\RepairSystem.API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.RepairSystem.API.props",
+      "PackagePath": "buildTransitive\\RepairSystem.API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
