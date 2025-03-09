@@ -33,6 +33,42 @@
       "PackagePath": "staticwebassets\\repair.html"
     },
     {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\index.html",
+      "PackagePath": "staticwebassets\\spa\\index.html"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\api\\api.js",
+      "PackagePath": "staticwebassets\\spa\\src\\api\\api.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\assets\\main.css",
+      "PackagePath": "staticwebassets\\spa\\src\\assets\\main.css"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\httpVueLoader.js",
+      "PackagePath": "staticwebassets\\spa\\src\\httpVueLoader.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\main.js",
+      "PackagePath": "staticwebassets\\spa\\src\\main.js"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\views\\Home.vue",
+      "PackagePath": "staticwebassets\\spa\\src\\views\\Home.vue"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\views\\Login.vue",
+      "PackagePath": "staticwebassets\\spa\\src\\views\\Login.vue"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\views\\NotFound.vue",
+      "PackagePath": "staticwebassets\\spa\\src\\views\\NotFound.vue"
+    },
+    {
+      "Id": "C:\\Repos\\cursor_test\\RepairSystem.API\\wwwroot\\spa\\src\\views\\RepairList.vue",
+      "PackagePath": "staticwebassets\\spa\\src\\views\\RepairList.vue"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.RepairSystem.API.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

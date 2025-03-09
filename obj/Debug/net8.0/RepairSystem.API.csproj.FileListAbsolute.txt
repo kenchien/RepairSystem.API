@@ -150,3 +150,4 @@ C:\Repos\cursor_test\RepairSystem.API\obj\Debug\net8.0\RepairSystem.API.xml
 C:\Repos\cursor_test\RepairSystem.API\obj\Debug\net8.0\RepairSystem.API.pdb
 C:\Repos\cursor_test\RepairSystem.API\obj\Debug\net8.0\RepairSystem.API.genruntimeconfig.cache
 C:\Repos\cursor_test\RepairSystem.API\obj\Debug\net8.0\ref\RepairSystem.API.dll
+C:\Repos\cursor_test\RepairSystem.API\obj\Debug\net8.0\RepairSystem.API.sourcelink.json

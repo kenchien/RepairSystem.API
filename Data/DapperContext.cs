@@ -7,7 +7,7 @@ namespace RepairSystem.API.Data
     /// <summary>
     /// Dapper 資料庫連線上下文
     /// </summary>
-    public class DapperContext
+    public class DapperContext : IDapperContext
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RepairSystem.API.Data;
 using RepairSystem.API.Models;
@@ -7,8 +6,6 @@ using RepairSystem.API.Services;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Any;
 using Dapper;
@@ -124,13 +121,11 @@ builder.Services.AddCors(options =>
                           .AllowCredentials());
 });
 
-// Configure DbContext
+// Configure Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// 註冊 Dapper 連線上下文
-builder.Services.AddSingleton<DapperContext>();
-
-// 註冊存儲庫
+// 註冊接口與實現
+builder.Services.AddScoped<IDapperContext, DapperContext>();
 builder.Services.AddScoped<IRepairRepository, DapperRepairRepository>();
 
 // 配置JWT身份驗證
@@ -154,12 +149,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.Configure<FileStorageSettings>(builder.Configuration.GetSection("FileStorageSettings"));
 
-// 註冊服務實現
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IRepairService, RepairService>();
+// 註冊服務實現，使用新的依賴注入方式
+builder.Services.AddScoped<IAuthService, DapperAuthService>();
+builder.Services.AddScoped<IRepairService, DapperRepairService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<IFileService, DapperFileService>();
+builder.Services.AddScoped<IEquipmentService, DapperEquipmentService>();
 
 // 構建應用程序
 var app = builder.Build();
@@ -176,22 +171,6 @@ if (app.Environment.IsDevelopment())
         c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // 折疊所有接口
         c.DefaultModelsExpandDepth(0); // 隱藏模型
     });
-    
-    // 初始化數據庫並填充種子數據
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        try
-        {
-            var context = services.GetRequiredService<RepairDbContext>();
-            DbInitializer.Initialize(context);
-        }
-        catch (Exception ex)
-        {
-            var logger = services.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An error occurred while seeding the database.");
-        }
-    }
 }
 else
 {
@@ -211,9 +190,11 @@ app.UseHttpsRedirection();
 // 啟用靜態文件服務
 app.UseStaticFiles();
 
+// 配置SPA回退路由
+app.MapFallbackToFile("/spa/{*path:nonfile}", "/spa/index.html");
+
 // 啟用CORS策略
 app.UseCors("AllowAll");
-app.UseCors("AllowSpecificOrigin");
 
 // 啟用身份驗證和授權
 app.UseAuthentication();
@@ -251,20 +232,18 @@ public class AddRequiredHeaderParameter : IOperationFilter
     {
         if (operation.Parameters == null)
             operation.Parameters = new List<OpenApiParameter>();
-        
-        if (context.ApiDescription.ActionDescriptor.EndpointMetadata.Any(m => m is AuthorizeAttribute))
+            
+        operation.Parameters.Add(new OpenApiParameter
         {
-            operation.Parameters.Add(new OpenApiParameter
+            Name = "Accept-Language",
+            In = ParameterLocation.Header,
+            Required = false,
+            Schema = new OpenApiSchema
             {
-                Name = "X-Request-ID",
-                In = ParameterLocation.Header,
-                Required = false,
-                Schema = new OpenApiSchema
-                {
-                    Type = "string"
-                },
-                Description = "請求唯一標識符，用於追蹤請求"
-            });
-        }
+                Type = "string",
+                Default = new OpenApiString("zh-TW")
+            },
+            Description = "指定語言，支持的值：en-US, zh-TW"
+        });
     }
 } 

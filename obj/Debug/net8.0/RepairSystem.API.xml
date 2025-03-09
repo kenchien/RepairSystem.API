@@ -294,6 +294,17 @@
             <param name="technicianId">技術人員 ID</param>
             <returns>報修單集合</returns>
         </member>
+        <member name="T:RepairSystem.API.Data.IDapperContext">
+            <summary>
+            Dapper 資料庫連線上下文接口
+            </summary>
+        </member>
+        <member name="M:RepairSystem.API.Data.IDapperContext.CreateConnection">
+            <summary>
+            創建資料庫連線
+            </summary>
+            <returns>數據庫連線</returns>
+        </member>
         <member name="T:RepairSystem.API.Data.IRepairRepository">
             <summary>
             維修系統數據訪問接口，定義了對報修單、設備和用戶的數據操作
